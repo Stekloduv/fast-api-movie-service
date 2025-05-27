@@ -6,10 +6,16 @@ from app.models import Base
 app = FastAPI()
 
 
+@app.get("/")
+async def root():
+    return {"message": "FastAPI Cinema is working!"}
+
+
 @app.on_event("startup")
 async def on_startup():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+
 
 app.include_router(movies.router)
 app.include_router(users.router)

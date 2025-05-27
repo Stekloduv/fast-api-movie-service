@@ -1,12 +1,19 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
+
 
 class FilmBase(BaseModel):
     title: str
     genre: str
     price: float
 
+
 class FilmCreate(FilmBase):
     pass
+
+
+class FilmUpdate(FilmBase):
+    pass
+
 
 class FilmRead(FilmBase):
     id: int
@@ -14,14 +21,24 @@ class FilmRead(FilmBase):
     class Config:
         from_attributes = True
 
+
 class UserBase(BaseModel):
-    email: str
+    email: EmailStr
+
 
 class UserCreate(UserBase):
     password: str
+    role: str = "user"
+
 
 class UserRead(UserBase):
     id: int
+    role: str
 
     class Config:
         from_attributes = True
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
